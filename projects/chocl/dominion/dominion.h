@@ -59,7 +59,7 @@ struct gameState {
   int outpostPlayed;
   int outpostTurn;
   int whoseTurn;
-  int phase;
+  int phase;  
   int numActions; /* Starts at 1 each turn */
   int coins; /* Use as you see fit! */
   int numBuys; /* Starts at 1 each turn */

@@ -1351,8 +1351,8 @@ int playVillage(struct gameState *state, int handPos) {
 int playGreat_Hall(struct gameState *state, int handPos) {
   int currentPlayer = whoseTurn(state);
   //+1 Card
-  //drawCard(currentPlayer, state); //correct
-  drawCard(state,currentPlayer); //incorrect
+  drawCard(currentPlayer, state); //correct
+  //drawCard(state,currentPlayer); //incorrect
 
   //+1 Actions
   state->numActions++;
