@@ -1,0 +1,76 @@
+        -:    0:Source:randomtestcard2.c
+        -:    0:Graph:randomtestcard2.gcno
+        -:    0:Data:randomtestcard2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include <math.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include <limits.h>
+        -:    9:#include <time.h>
+        -:   10:#include <assert.h>
+        -:   11:
+function main called 1 returned 100% blocks executed 82%
+        -:   12:int main() {
+        1:   13:    int seed = 1000;
+        1:   14:    int numPlayer = 2;
+        -:   15:    int r;
+        -:   16:    int j;
+        1:   17:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   18:        , remodel, smithy, village, baron, great_hall};
+        -:   19:    struct gameState G;
+        1:   20:    srand(time(NULL));
+   200002:   21:    for (int i = 0; i < 100000; i++) {
+branch  0 taken 99%
+branch  1 taken 1%
+   100000:   22:    seed = rand() % 999999999;
+   100000:   23:    j = 0;
+        -:   24:
+   100000:   25:    memset(&G, 23, sizeof(struct gameState));   // clear the game state
+   100000:   26:    r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        -:   27:
+  5200000:   28:        for (int x= 0; x < 25; x++) {
+branch  0 taken 96%
+branch  1 taken 4%
+  2500000:   29:            G.supplyCount[x] = rand() % 5;
+  2500000:   30:        }
+        -:   31:
+  5200000:   32:        for (int y = 0; y < 25; y++) {
+branch  0 taken 96%
+branch  1 taken 4%
+  2500000:   33:            if (G.supplyCount[y] == 0) {
+branch  0 taken 20%
+branch  1 taken 80%
+   499574:   34:                j++;
+   499574:   35:            }
+  2500000:   36:        }
+        -:   37:
+   100000:   38:        if (G.supplyCount[province] == 0) {
+branch  0 taken 20%
+branch  1 taken 80%
+    40392:   39:            assert(isGameOver(&G) == 1);
+branch  0 taken 0%
+branch  1 taken 100%
+    20196:   40:        }
+    79804:   41:        else if (j >= 3) {
+branch  0 taken 88%
+branch  1 taken 12%
+   141214:   42:            assert(isGameOver(&G) == 1);
+branch  0 taken 0%
+branch  1 taken 100%
+    70607:   43:        }
+        -:   44:        else {
+    18394:   45:            assert(isGameOver(&G) == 0);
+branch  0 taken 0%
+branch  1 taken 100%
+        -:   46:        }
+        -:   47:
+   100000:   48:    }
+        1:   49:    printf("Passed all tests.\n");
+        1:   50:    return 0;
+        -:   51:
+        -:   52:}

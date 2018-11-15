@@ -1,0 +1,70 @@
+        -:    0:Source:randomtestcard1.c
+        -:    0:Graph:randomtestcard1.gcno
+        -:    0:Data:randomtestcard1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include <math.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include <limits.h>
+        -:    9:#include <time.h>
+        -:   10:#include <assert.h>
+        -:   11:
+function main called 1 returned 100% blocks executed 74%
+        -:   12:int main() {
+        1:   13:    int seed = 1000;
+        1:   14:    int numPlayer = 2;
+        -:   15:    int r;
+        1:   16:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   17:        , remodel, smithy, village, baron, great_hall};
+        -:   18:    struct gameState G;
+        1:   19:    srand(time(NULL));
+  2000002:   20:    for (int i = 0; i < 1000000; i++) {
+branch  0 taken 99%
+branch  1 taken 1%
+  1000000:   21:    seed = rand() % 999999999;
+  1000000:   22:    int cardPos = rand() % 10;
+        -:   23:
+  1000000:   24:    memset(&G, 23, sizeof(struct gameState));   // clear the game state
+  1000000:   25:    r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        -:   26:
+  1000000:   27:    G.numBuys = rand() % 20 - 15;
+  1000000:   28:    G.coins = rand() % 10 - 5;
+  1000000:   29:    G.supplyCount[cardPos] = rand() % 10 - 5;
+        -:   30:
+  1000000:   31:        if (G.numBuys < 1) {
+branch  0 taken 80%
+branch  1 taken 20%
+  1598954:   32:        assert(buyCard(cardPos,&G) == -1);
+branch  0 taken 0%
+branch  1 taken 100%
+   799477:   33:        }
+   200523:   34:        else if (G.supplyCount[cardPos] < 1) {
+branch  0 taken 60%
+branch  1 taken 40%
+   240932:   35:        assert(buyCard(cardPos,&G) == -1);
+branch  0 taken 0%
+branch  1 taken 100%
+   120466:   36:        }
+    80057:   37:        else if (G.coins < getCost(cardPos)) {
+branch  0 taken 84%
+branch  1 taken 16%
+   134146:   38:        assert(buyCard(cardPos,&G) == -1);
+branch  0 taken 0%
+branch  1 taken 100%
+    67073:   39:        }
+        -:   40:        else {
+    25968:   41:        assert(buyCard(cardPos,&G) == 0);
+branch  0 taken 0%
+branch  1 taken 100%
+        -:   42:        }
+        -:   43:
+  1000000:   44:    }
+        1:   45:    printf("Passed all tests.\n");
+        1:   46:    return 0;
+        -:   47:
+        -:   48:}

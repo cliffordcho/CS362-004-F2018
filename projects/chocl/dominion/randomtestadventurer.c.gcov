@@ -1,0 +1,242 @@
+        -:    0:Source:randomtestadventurer.c
+        -:    0:Graph:randomtestadventurer.gcno
+        -:    0:Data:randomtestadventurer.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include <math.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include <limits.h>
+        -:    9:#include <time.h>
+        -:   10:
+        -:   11:
+function main called 1 returned 100% blocks executed 89%
+        -:   12:int main() {
+        -:   13:    int r;
+        1:   14:    int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
+        1:   15:    int seed = 1000;
+        1:   16:    int numPlayers = 2;
+        -:   17:    struct gameState G, testG;
+        1:   18:    int k[10] = {adventurer, great_hall, village, minion, mine, cutpurse,
+        -:   19:        sea_hag, tribute, smithy, council_room};
+        -:   20:
+        1:   21:    int treasureCardsStart = 0;
+        1:   22:    int treasureCardsEnd = 0;
+        1:   23:    int discardCardsStart = 0;
+        1:   24:    int discardCardsEnd = 0;
+        1:   25:    int estateCardsStart = 0;
+        1:   26:    int estateCardsEnd = 0;
+        1:   27:    int testPass = 0;
+        1:   28:    int testFail = 0;
+        1:   29:    srand(time(NULL));
+        -:   30:
+    20002:   31:    for (int x = 0; x < 10000; x++) {
+branch  0 taken 99%
+branch  1 taken 1%
+    10000:   32:        seed = rand() % 999999999;
+        -:   33:        //Test 1: Game starts with 7 Copper, 3 Estates. Treasure Cards in Hand should be +2 from start of game.
+    10000:   34:        memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    10000:   35:        r = initializeGame(numPlayers, k, seed, &G); // initialize a new game - 2 players
+    10000:   36:        memcpy(&testG, &G, sizeof(struct gameState));
+    10000:   37:        treasureCardsStart = 0;
+    10000:   38:        treasureCardsEnd = 0;
+        -:   39:
+   220000:   40:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   229980:   41:            if(testG.hand[whoseTurn(&testG)][x] == copper || testG.hand[whoseTurn(&testG)][x] == silver || testG.hand[whoseTurn(&testG)][x] == gold)
+branch  0 taken 65%
+branch  1 taken 35%
+branch  2 taken 100%
+branch  3 taken 0%
+branch  4 taken 0%
+branch  5 taken 100%
+    35010:   42:                treasureCardsStart++;
+   100000:   43:        }
+    10000:   44:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+   220000:   45:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   189980:   46:            if(testG.hand[whoseTurn(&testG)][x] == copper || testG.hand[whoseTurn(&testG)][x] == silver || testG.hand[whoseTurn(&testG)][x] == gold)
+branch  0 taken 45%
+branch  1 taken 55%
+branch  2 taken 100%
+branch  3 taken 0%
+branch  4 taken 0%
+branch  5 taken 100%
+    55010:   47:                treasureCardsEnd++;
+   100000:   48:        }
+        -:   49:        //printf("Treasure Cards Before: %i -- Treasure Cards After: %i\n",treasureCardsStart,treasureCardsEnd);
+    10000:   50:        if(treasureCardsStart + 2 == treasureCardsEnd)
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:   51:            testPass++;
+        -:   52:        else
+    #####:   53:            testFail++;
+        -:   54:
+        -:   55:
+        -:   56:        //Test 2: Game starts with 7 Copper, 3 Estates. Play 3 adventurer cards. Final Result: 7 Tresure cards in hand. Estate Card in hand + Estate card in discard = 3.
+    10000:   57:        memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    10000:   58:        r = initializeGame(numPlayers, k, seed, &G); // initialize a new game - 2 players
+    10000:   59:        memcpy(&testG, &G, sizeof(struct gameState));
+    10000:   60:        treasureCardsStart = 0;
+    10000:   61:        treasureCardsEnd = 0;
+    10000:   62:        estateCardsStart = 0;
+    10000:   63:        estateCardsEnd = 0;
+    10000:   64:        discardCardsStart = 0;
+    10000:   65:        discardCardsEnd = 0;
+   220000:   66:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   67:            if(testG.hand[0][x] == copper)
+branch  0 taken 35%
+branch  1 taken 65%
+    35010:   68:                treasureCardsStart++;
+   100000:   69:        }
+        -:   70:
+   220000:   71:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   72:            if(testG.hand[0][x] == estate)
+branch  0 taken 15%
+branch  1 taken 85%
+    14990:   73:                estateCardsStart++;
+   100000:   74:        }
+        -:   75:
+   220000:   76:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   77:            if(testG.discard[0][x] == estate)
+branch  0 taken 0%
+branch  1 taken 100%
+    #####:   78:                discardCardsStart++;
+   100000:   79:        }
+        -:   80:
+    10000:   81:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+    10000:   82:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+    10000:   83:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+        -:   84:
+   220000:   85:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   86:            if(testG.hand[0][x] == copper)
+branch  0 taken 70%
+branch  1 taken 30%
+    70000:   87:                treasureCardsEnd++;
+   100000:   88:        }
+   220000:   89:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   90:            if(testG.hand[0][x] == estate)
+branch  0 taken 24%
+branch  1 taken 76%
+    24153:   91:                estateCardsEnd++;
+   100000:   92:        }
+        -:   93:
+   220000:   94:        for (int x = 0; x < 10; x++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:   95:            if(testG.discard[0][x] == estate)
+branch  0 taken 15%
+branch  1 taken 85%
+    15010:   96:                discardCardsEnd++;
+   100000:   97:        }
+        -:   98:
+        -:   99:        //printf("Treasure Cards Before: %i -- Treasure Cards After: %i\n",treasureCardsStart,treasureCardsEnd);
+        -:  100:        //printf("Estate Cards Before: %i -- Estate Cards After: %i\n",estateCardsStart,estateCardsEnd);
+        -:  101:        //printf("Discard Cards Before: %i -- Discard Cards After: %i\n",discardCardsStart,discardCardsEnd);
+    10000:  102:        if(treasureCardsEnd == 7)
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  103:            testPass++;
+        -:  104:        else
+    #####:  105:            testFail++;
+    10000:  106:        if(treasureCardsEnd + estateCardsEnd + discardCardsEnd == 10)
+branch  0 taken 8%
+branch  1 taken 92%
+      837:  107:            testPass++;
+        -:  108:        else
+     9163:  109:            testFail++;
+        -:  110:
+        -:  111:        //Test 3 - 5: No state change for other players.
+    10000:  112:        memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    10000:  113:        r = initializeGame(numPlayers, k, seed, &G); // initialize a new game - 2 players
+    10000:  114:        memcpy(&testG, &G, sizeof(struct gameState));
+        -:  115:
+    10000:  116:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+        -:  117:
+    10000:  118:        if(testG.handCount[whoseTurn(&testG)+1] == G.handCount[whoseTurn(&G)+1])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  119:            testPass++;
+        -:  120:        else
+    #####:  121:            testFail++;
+        -:  122:
+    10000:  123:        if(testG.deckCount[whoseTurn(&testG)+1] == G.deckCount[whoseTurn(&G)+1])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  124:            testPass++;
+        -:  125:        else
+    #####:  126:            testFail++;
+        -:  127:
+    10000:  128:        if(testG.discardCount[whoseTurn(&testG)+1] == G.discardCount[whoseTurn(&G)+1])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  129:            testPass++;
+        -:  130:        else
+    #####:  131:            testFail++;
+        -:  132:
+        -:  133:
+        -:  134:        //Test 6 - 8: No state change for victory cards and kingdom pile cards.
+    10000:  135:        memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    10000:  136:        r = initializeGame(numPlayers, k, seed, &G); // initialize a new game - 2 players
+    10000:  137:        memcpy(&testG, &G, sizeof(struct gameState));
+        -:  138:
+    10000:  139:        cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+        -:  140:
+    10000:  141:        if(testG.supplyCount[copper] == G.supplyCount[copper])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  142:            testPass++;
+        -:  143:        else
+    #####:  144:            testFail++;
+        -:  145:
+    10000:  146:        if(testG.supplyCount[silver] == G.supplyCount[silver])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  147:            testPass++;
+        -:  148:        else
+    #####:  149:            testFail++;
+        -:  150:
+    10000:  151:        if(testG.supplyCount[silver] == G.supplyCount[silver])
+branch  0 taken 100%
+branch  1 taken 0%
+    10000:  152:            testPass++;
+        -:  153:        else
+    #####:  154:            testFail++;
+        -:  155:
+   220000:  156:        for(int i = 0; i < 10; i++) {
+branch  0 taken 91%
+branch  1 taken 9%
+   100000:  157:            if(testG.supplyCount[k[i]] != G.supplyCount[k[i]]) {
+branch  0 taken 0%
+branch  1 taken 100%
+    #####:  158:                testFail++;
+    #####:  159:                break;
+        -:  160:            }
+        -:  161:
+   100000:  162:            if (i == 9)
+branch  0 taken 10%
+branch  1 taken 90%
+    10000:  163:                testPass++;
+        -:  164:
+   100000:  165:        }
+    10000:  166:    }
+        1:  167:    printf("Test Passed: %i times\n",testPass);
+        1:  168:    printf("Test Failed: %i times\n",testFail);
+        1:  169:    return 0;
+        -:  170:}
