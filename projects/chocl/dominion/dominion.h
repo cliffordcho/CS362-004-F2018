@@ -59,7 +59,7 @@ struct gameState {
   int outpostPlayed;
   int outpostTurn;
   int whoseTurn;
-  int phase;
+  int phase;  
   int numActions; /* Starts at 1 each turn */
   int coins; /* Use as you see fit! */
   int numBuys; /* Starts at 1 each turn */
@@ -85,7 +85,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 		   struct gameState *state);
 /* Responsible for initializing all supplies, and shuffling deck and
    drawing starting hands for all players.  Check that 10 cards selected
-   are in fact (different) kingdom cards, and that numPlayers is valid. 
+   are in fact (different) kingdom cards, and that numPlayers is valid.
 
 Cards not in game should initialize supply position to -1 */
 
@@ -127,5 +127,11 @@ int scoreFor(int player, struct gameState *state);
 int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
+
+int playAdventurer(struct gameState *state);
+int playCouncil_Room(struct gameState *state, int handPos);
+int playSmithy(struct gameState *state, int handPos);
+int playVillage(struct gameState *state, int handPos);
+int playGreat_Hall(struct gameState *state, int handPos);
 
 #endif

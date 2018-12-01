@@ -1,0 +1,13 @@
+Function 'main'
+Lines executed:100.00% of 27
+Branches executed:100.00% of 18
+Taken at least once:83.33% of 18
+No calls
+
+File 'randomtestcard2.c'
+Lines executed:100.00% of 27
+Branches executed:100.00% of 18
+Taken at least once:83.33% of 18
+No calls
+randomtestcard2.c:creating 'randomtestcard2.c.gcov'
+

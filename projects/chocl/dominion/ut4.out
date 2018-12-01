@@ -1,0 +1,13 @@
+Function 'main'
+Lines executed:82.76% of 29
+Branches executed:100.00% of 10
+Taken at least once:50.00% of 10
+No calls
+
+File 'unittest4.c'
+Lines executed:82.76% of 29
+Branches executed:100.00% of 10
+Taken at least once:50.00% of 10
+No calls
+unittest4.c:creating 'unittest4.c.gcov'
+

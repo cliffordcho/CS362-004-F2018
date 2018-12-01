@@ -1,0 +1,135 @@
+        -:    0:Source:unittest1.c
+        -:    0:Graph:unittest1.gcno
+        -:    0:Data:unittest1.gcda
+        -:    0:Runs:5
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include <math.h>
+        -:    7:#include <stdlib.h>
+        -:    8:#include <limits.h>
+        -:    9:
+        -:   10:/* -----------------------------------------------------------------------
+        -:   11: * Demonstration of how to write unit tests for dominion-base
+        -:   12: * Include the following lines in your makefile:
+        -:   13: *
+        -:   14: * unittest1: unittest1.c dominion.o rngs.o
+        -:   15: *      gcc -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
+        -:   16: * -----------------------------------------------------------------------
+        -:   17: */
+function main called 5 returned 100% blocks executed 68%
+        -:   18: int main() {
+        5:   19:     int seed = 1000;
+        5:   20:     int numPlayer = 2;
+        -:   21:     int r;
+        5:   22:     int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   23:         , remodel, smithy, village, baron, great_hall};
+        -:   24:     struct gameState G;
+        -:   25:
+        5:   26:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   27:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        -:   28:     //Test 1: numBuys < 1
+        5:   29:     G.numBuys = 0;
+        5:   30:     G.coins = 100;
+        5:   31:     if(buyCard(1,&G) == -1)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   32:         printf("Test 1: Passed\n");
+        -:   33:     else
+    #####:   34:         printf("Test 1: Failed\n");
+        -:   35:
+        -:   36:     //Test 2: numBuys = 1
+        5:   37:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   38:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   39:     G.numBuys = 1;
+        5:   40:     G.coins = 100;
+        5:   41:     if(buyCard(1,&G) == 0)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   42:         printf("Test 2: Passed\n");
+        -:   43:     else
+    #####:   44:         printf("Test 2: Failed\n");
+        -:   45:
+        -:   46:     //Test 3: supplyCount = 0
+        5:   47:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   48:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   49:     G.numBuys = 10;
+        5:   50:     G.coins = 100;
+        5:   51:     G.supplyCount[1] = 0;
+        5:   52:     if(buyCard(1,&G) == -1)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   53:         printf("Test 3: Passed\n");
+        -:   54:     else
+    #####:   55:         printf("Test 3: Failed\n");
+        -:   56:
+        -:   57:     //Test 4: supplyCount = 1
+        5:   58:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   59:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   60:     G.numBuys = 10;
+        5:   61:     G.coins = 100;
+        5:   62:     G.supplyCount[1] = 1;
+        5:   63:     if(buyCard(1,&G) == 0)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   64:         printf("Test 4: Passed\n");
+        -:   65:     else
+    #####:   66:         printf("Test 4: Failed\n");
+        -:   67:     //Test 5: coins = 0
+        5:   68:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   69:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   70:     G.numBuys = 10;
+        5:   71:     G.coins = 0;
+        5:   72:     if(buyCard(1,&G) == -1)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   73:         printf("Test 5: Passed\n");
+        -:   74:     else
+    #####:   75:         printf("Test 5: Failed\n");
+        -:   76:     //Test 6: coins = 100
+        5:   77:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   78:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   79:     G.numBuys = 10;
+        5:   80:     G.coins = 100;
+        5:   81:     if(buyCard(1,&G) == 0)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   82:         printf("Test 6: Passed\n");
+        -:   83:     else
+    #####:   84:         printf("Test 6: Failed\n");
+        -:   85:     //Test 7: Buys - 1
+        -:   86:     //Test 8: Coins - 1
+        -:   87:     //Test 9: Supply - 1
+        5:   88:     memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        5:   89:     r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+        5:   90:     G.numBuys = 10;
+        5:   91:     G.coins = 100;
+        -:   92:
+        5:   93:     buyCard(1,&G);
+        -:   94:
+        5:   95:     if(G.numBuys == 9) //Buys 10 - 1 = 9
+branch  0 taken 100%
+branch  1 taken 0%
+        5:   96:         printf("Test 7: Passed\n");
+        -:   97:     else
+    #####:   98:         printf("Test 7: Failed\n");
+        5:   99:     if(G.coins == 98) //Cost is 2 coins (Coins 100 - 2 = 98)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:  100:         printf("Test 8: Passed\n");
+        -:  101:     else
+    #####:  102:         printf("Test 8: Failed\n");
+        -:  103:
+        5:  104:     if(G.supplyCount[1] == 7) //Supply Starts with 8 (Supply 8 - 1 = 7)
+branch  0 taken 100%
+branch  1 taken 0%
+        5:  105:         printf("Test 9: Passed\n");
+        -:  106:     else
+    #####:  107:         printf("Test 9: Failed\n");
+        -:  108:
+        5:  109:    printf("End of Unit Test: buyCard(); 9 Tests\n");
+        5:  110:     return 0;
+        -:  111: }
